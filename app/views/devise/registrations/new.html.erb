@@ -1,0 +1,43 @@
+<div class="uk-text-center">
+  <div class="uk-card uk-card-default uk-padding uk-position-center">
+    <div class="uk-margin-small">
+      <img src="/logo.gif">
+    </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      ユーザー名
+      <div>
+        <div class="uk-inline">
+          <span class="uk-form-icon" uk-icon="icon: user"></span>
+          <%= f.text_field :username, autofocus: true, autocomplete: "username", class: "uk-input" %>
+        </div>
+      </div>
+
+      パスワード
+      <div>
+        <div class="uk-inline">
+          <span class="uk-form-icon" uk-icon="icon: lock"></span>
+          <%= f.password_field :password, autocomplete: "new-password", class: "uk-input" %>
+        </div>
+      </div>
+      <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> 文字以上)</em>
+      <% end %><br />
+
+      パスワードチェック
+      <div class="uk-margin-buttom">
+        <div class="uk-inline">
+          <span class="uk-form-icon" uk-icon="icon: lock"></span>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "uk-input" %>
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <%= f.submit "Sign up", class: "uk-button uk-button-default"%>
+      </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+<nav class="uk-navbar-container  uk-navbar-transparent" uk-navbar>
+    <div class="uk-navbar-left">
+        <a class="uk-navbar-item uk-logo" href="#">
+          <img src="/logo.gif">
+        </a>
+    </div>
+
+    <div class="uk-navbar-right">
+      <div class="uk-nabvar-item">
+        タグ：
+        <a href="#modal-tag" class="uk-button uk-button-default uk-text-capitalize" uk-toggle>
+        <% if @tag.name.present? %>
+          <%= @tag.name %>
+        <% else %>
+          未選択
+        <% end %>
+        </a>
+      </div>
+
+      <a href="#modal-image" class="uk-navbar-item" uk-toggle>
+      <% if current_user.image.attached? %>
+        <%= image_tag current_user.image,
+          class: "uk-border-circle"
+        %>
+      <% else %>
+        <%= image_tag '/first.png', class: "uk-border-circle uk-margin-right" %>
+      <% end %>
+      </a>
+    </div>
+</nav>
+
+<div id="modal-tag" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical uk-padding">
+    <%= form_with(url: root_path, local: true, method: "get") do |form| %>
+      <%= form.text_field :name, class: "uk-input uk-form-width-medium", autocomplete: "on", list: "tags"  %>
+      <datalist id="tags">
+      <% @tags.each do |tag| %>
+        <option><%= tag.name %></option>
+      <% end %>
+      </datalist>
+      <button class="uk-button uk-button-default">選択</button>
+    <% end %>
+  </div>
+</div>
+
+<div id="modal-image" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical uk-padding">
+  <%= form_with(url: users_image_path, local: true) do |form| %>
+    <div class="uk-margin">
+      <div uk-form-custom="target: true">
+        <%= form.file_field :image%>
+        <input class="uk-input uk-form-width-medium" type="text" placeholder="画像を選択してください" disable>
+      </div>
+      <%= form.submit "決定", class: "uk-button uk-button-default"%>
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<div class="uk-container">
+
+<%= form_with(model: @post ,class: "uk-panel") do |form| %>
+  <div class="uk-margin">
+    <%= form.text_area :content , class: "uk-textarea"%>
+  </div>
+
+  <div class="uk-margin">
+    <%= form.submit "投稿", class: "uk-button uk-button-default uk-align-right"%>
+  </div>
+<% end %>
+
+  <div id="posts">
+  <% @posts.reverse.each do |post| %>
+    <div class="uk-card uk-card-default">
+      <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+          <div class="uk-width-auto">
+          <% if post.user.image.attached? %>
+            <%= image_tag post.user.image,
+              class: "uk-border-circle"
+            %>
+          <% else %>
+            <%= image_tag '/first.png', class: "uk-border-circle"%>
+          <% end %>
+          </div>
+          <div class="uk-width-expand">
+              <p class="uk-margin-remove-bottom"><%= post.user.username %></p>
+              <p class="uk-text-meta uk-margin-remove-top created"><%= l post.created_at %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="uk-card-body uk-padding-small">
+        <p><%= post.content %></p>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<div id='post-template' class="uk-card uk-card-default" hidden>
+  <div class="uk-card-header">
+    <div class="uk-grid-small uk-flex-middle" uk-grid>
+      <div class="uk-width-auto">
+        <img class='image uk-border-circle'>
+      </div>
+      <div class="uk-width-expand">
+          <p class="uk-margin-remove-bottom username"></p>
+          <p class="uk-text-meta uk-margin-remove-top created"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="uk-card-body uk-padding-small">
+    <p class="content"></p>
+  </div>
+</div>
+
+<br>
