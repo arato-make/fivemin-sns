@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable
 
-  validates :username, uniqueness: true
+  validates :username, uniqueness: {message: "既に存在しているユーザー名です"}
 
   has_one_attached :image
 
