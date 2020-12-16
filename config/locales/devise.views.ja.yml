@@ -10,6 +10,15 @@ ja:
         remember_me: "ログインを記憶"
     models:
       user: "ユーザ"
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              too_short: "パスワードが短すぎます"
+            password_confirmation:
+              confirmation: "パスワードが一致しません"
+
   devise:
     confirmations:
       new:
