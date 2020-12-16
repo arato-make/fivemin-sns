@@ -34,10 +34,8 @@ class PostsController < ApplicationController
         broad_params['username'] = current_user.username
         broad_params['image'] = current_user.image.attached? ? url_for(current_user.image.variant(gravity: :center, resize:"40x40^", crop:"40x40+0+0").processed) : "/first.png"
         ActionCable.server.broadcast("tag_channel_#{session[:tag_name]}", broad_params)
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
+        format.json { render json: @post , status: :created }
       else
-        format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
